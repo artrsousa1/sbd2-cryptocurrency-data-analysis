@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: cryptocurrency_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cryptocurrency
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: sbd2-pgadmin
+    ports:
+      - 8000:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    restart: always
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  db_data:
+  pgadmin-data:
