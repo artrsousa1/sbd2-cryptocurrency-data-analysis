@@ -1,0 +1,7 @@
+jupyterlab
+pandas
+numpy
+matplotlib
+seaborn
+psycopg[binary,pool]
+pandoc
