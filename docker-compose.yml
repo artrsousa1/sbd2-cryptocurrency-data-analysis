@@ -21,6 +21,18 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
+  jupyter:
+    build: .
+    container_name: jupyter_lab
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+
 volumes:
   postgres_data:
   pgadmin_data:
