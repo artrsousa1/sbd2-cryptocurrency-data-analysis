@@ -4,13 +4,13 @@ set -e
 
 echo "Executing Raw Data Analysis Notebook..."
 
-jupyter execute ./data/raw/analytics.ipynb
+jupyter execute ./data_layer/raw/analytics.ipynb
 
 echo "Raw Data Analysis Notebook executed successfully!"
 
 echo "Starting ETL process from Raw to Silver..."
 
-jupyter execute ./etl/etl_raw_to_silver.ipynb
+jupyter execute ./transformer/etl/etl_raw_to_silver.ipynb
 
 echo "ETL process completed successfully!"
 
