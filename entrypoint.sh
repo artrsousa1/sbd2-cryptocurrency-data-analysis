@@ -10,7 +10,11 @@ echo "Raw Data Analysis Notebook executed successfully!"
 
 echo "Starting ETL process from Raw to Silver..."
 
-jupyter execute ./transformer/etl/etl_raw_to_silver.ipynb
+jupyter execute ./transformer/etl/raw_to_silver.ipynb
+
+echo "Starting ETL process from Silver to Gold..."
+
+jupyter execute ./transformer/etl/silver_to_gold.ipynb
 
 echo "ETL process completed successfully!"
 
