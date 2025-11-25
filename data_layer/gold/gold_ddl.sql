@@ -72,7 +72,7 @@ create table if not exists dw.fat_mtr (
 );
 
 create index if not exists idx_fat_crp on dw.fat_mtr(srk_crp);
-create index if not exists idx_fato_data on dw.fat_mtr_crp(sk_data);
-create index if not exists idx_fato_hora on dw.fat_mtr_crp(sk_hora);
-create index if not exists idx_fato_data_crpt on dw.fat_mtr_crp(sk_data, sk_crpt);
-create index if not exists idx_fato_marketcap on dw.fat_mtr_crp(vlr_mktcap desc);
+create index if not exists idx_fat_dta on dw.fat_mtr(srk_dta);
+create index if not exists idx_fat_hra on dw.fat_mtr(srk_hra);
+create index if not exists idx_fat_dta_crp on dw.fat_mtr(srk_dta, srk_crp);
+create index if not exists idx_fat_mkt on dw.fat_mtr(vlr_mkt desc);
