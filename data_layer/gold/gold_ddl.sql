@@ -76,4 +76,3 @@ create index if not exists idx_fato_data on dw.fat_mtr_crp(sk_data);
 create index if not exists idx_fato_hora on dw.fat_mtr_crp(sk_hora);
 create index if not exists idx_fato_data_crpt on dw.fat_mtr_crp(sk_data, sk_crpt);
 create index if not exists idx_fato_marketcap on dw.fat_mtr_crp(vlr_mktcap desc);
-create index if not exists
