@@ -1,78 +1,79 @@
 create schema if not exists dw;
 
-drop table if exists dw.fato_metricas_crpt;
-drop table if exists dw.dim_crpt;
-drop table if exists dw.dim_data;
-drop table if exists dw.dim_hora;
+drop table if exists dw.fat_mtr;
+drop table if exists dw.dim_crp;
+drop table if exists dw.dim_dta;
+drop table if exists dw.dim_hra;
 
-create table if not exists dw.dim_data (
-    sk_data integer primary key,           
-    dt_cpta date not null,                 
-    nr_dia smallint,                       
-    nr_mes smallint,                       
-    nr_ano smallint,                       
-    nm_mes varchar(20),                    
-    nm_d_sem varchar(20),                  
-    nr_trim smallint,                      
-    nr_sem smallint,                       
-    fl_fds boolean                         
+create table if not exists dw.dim_dta (
+    srk_dta integer primary key,        
+    dte_cpt date not null,              
+    num_dia smallint,                   
+    num_mes smallint,                   
+    num_ano smallint,                   
+    nom_mes varchar(20),                
+    nom_sem varchar(20),                
+    num_tri smallint,                   
+    num_sem smallint,                   
+    flg_fds boolean                     
 );
 
-create index if not exists idx_dim_data_dt on dw.dim_data(dt_cpta);
+create index if not exists idx_dta_dte on dw.dim_dta(dte_cpt);
 
-create table if not exists dw.dim_hora (
-    sk_hora integer primary key,           
-    hr_cpta time not null,                 
-    nr_hora smallint,                      
-    nr_min smallint,                       
-    nr_seg smallint,                       
-    nm_perdd varchar(20)                   
+create table if not exists dw.dim_hra (
+    srk_hra integer primary key,        
+    hre_cpt time not null,              
+    num_hra smallint,                   
+    num_min smallint,                   
+    num_seg smallint,                   
+    nom_per varchar(20)                 
 );
 
-create index if not exists idx_dim_hora_hr on dw.dim_hora(hr_cpta);
+create index if not exists idx_hra_hre on dw.dim_hra(hre_cpt);
 
-create table if not exists dw.dim_crpt (
-    sk_crpt bigserial primary key,         
-    nk_nome varchar(255) not null unique,  
-    cd_symbol varchar(32),                 
-    vlr_max_supply numeric(38,10),         
-    fl_ativa boolean,                      
-    dt_add date                            
+create table if not exists dw.dim_crp (
+    srk_crp bigserial primary key,         
+    nky_nom varchar(255) not null unique,  
+    cod_sym varchar(32),                   
+    vlr_max_sup numeric(38,10),            
+    flg_atv boolean,                       
+    dte_add date                           
 );
 
-create index if not exists idx_dim_crpt_nome on dw.dim_crpt(nk_nome);
+create index if not exists idx_crp_nom on dw.dim_crp(nky_nom);
 
-create table if not exists dw.fato_metricas_crpt (
-    sk_fato bigserial primary key,         
-    sk_crpt bigint not null,               
-    sk_data integer not null,              
-    sk_hora integer not null,              
-    rnk_cmc integer,                       
-    vlr_preco_usd numeric(30,8),           
-    vlr_volume_24h numeric(30,2),          
-    vlr_mktcap numeric(30,2),              
-    vlr_dmn numeric(8,4),                  
-    vlr_tovr numeric(12,6),                
-    qtd_pairs integer,                     
-    qtd_circ_sup numeric(30,8),            
-    qtd_tot_sup numeric(30,8),             
-    vlr_fd_mktcap numeric(30,2),           
-    vlr_mcap_ts numeric(30,2),            
-    pc_ytd numeric(38,10),                  
-    pc_1h numeric(38,10),                   
-    pc_24h numeric(38,10),                  
-    pc_7d numeric(38,10),                   
-    pc_30d numeric(38,10),                  
-    pc_60d numeric(38,10),                  
-    pc_90d numeric(38,10),                  
-    
-    constraint fk_fato_crpt foreign key (sk_crpt) references dw.dim_crpt(sk_crpt),
-    constraint fk_fato_data foreign key (sk_data) references dw.dim_data(sk_data),
-    constraint fk_fato_hora foreign key (sk_hora) references dw.dim_hora(sk_hora)
+create table if not exists dw.fat_mtr (
+    srk_fat bigserial primary key,        
+    srk_crp bigint not null,              
+    srk_dta integer not null,             
+    srk_hra integer not null,             
+    rnk_cmc integer,                      
+    vlr_pre_usd numeric(30,8),            
+    vlr_vlm_24h numeric(30,2),            
+    vlr_mkt numeric(30,2),             
+    vlr_dom numeric(8,4),                 
+    vlr_tvr numeric(12,6),                
+    qtd_par integer,                      
+    qtd_cir_sup numeric(30,8),            
+    qtd_tot_sup numeric(30,8),            
+    vlr_fld_mkt numeric(30,2),          
+    vlr_mkt_tot numeric(30,2),         
+    pct_ytd numeric(38,10),               
+    pct_1hr numeric(38,10),               
+    pct_24h numeric(38,10),               
+    pct_7dd numeric(38,10),               
+    pct_30d numeric(38,10),               
+    pct_60d numeric(38,10),               
+    pct_90d numeric(38,10),               
+
+    constraint fk_fat_crp foreign key (srk_crp) references dw.dim_crp(srk_crp),
+    constraint fk_fat_dta foreign key (srk_dta) references dw.dim_dta(srk_dta),
+    constraint fk_fat_hra foreign key (srk_hra) references dw.dim_hra(srk_hra)
 );
 
-create index if not exists idx_fato_crpt on dw.fato_metricas_crpt(sk_crpt);
-create index if not exists idx_fato_data on dw.fato_metricas_crpt(sk_data);
-create index if not exists idx_fato_hora on dw.fato_metricas_crpt(sk_hora);
-create index if not exists idx_fato_data_crpt on dw.fato_metricas_crpt(sk_data, sk_crpt);
-create index if not exists idx_fato_marketcap on dw.fato_metricas_crpt(vlr_mktcap desc);
+create index if not exists idx_fat_crp on dw.fat_mtr(srk_crp);
+create index if not exists idx_fato_data on dw.fat_mtr_crp(sk_data);
+create index if not exists idx_fato_hora on dw.fat_mtr_crp(sk_hora);
+create index if not exists idx_fato_data_crpt on dw.fat_mtr_crp(sk_data, sk_crpt);
+create index if not exists idx_fato_marketcap on dw.fat_mtr_crp(vlr_mktcap desc);
+create index if not exists
